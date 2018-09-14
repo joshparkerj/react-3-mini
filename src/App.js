@@ -51,8 +51,18 @@ class App extends Component {
   }
 
   sellCar(id) {
-    // axios (DELETE)
-    // setState with response -> vehiclesToDisplay
+    axios.delete(`${APIURL}/${id}`)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        vehiclesToDisplay: res.data.vehicles
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
 
   filterByMake() {
