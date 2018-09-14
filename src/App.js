@@ -78,7 +78,21 @@ class App extends Component {
   filterByMake() {
     let make = this.selectedMake.value;
 
-    // axios (GET)
+    axios.get(`${APIURL}/vehicles`)
+    .then(res => {
+      console.log(res);
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        vehiclesToDisplay: res.data.filter(e => {
+          return e.make === make;
+        })
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
     // setState with response -> vehiclesToDisplay
   }
 
