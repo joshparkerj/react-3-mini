@@ -182,18 +182,39 @@ class App extends Component {
   }
   nameSearch() {
     let searchLetters = this.searchLetters.value;
-
-    // axios (GET)
-    // setState with response -> buyersToDisplay
+    axios.get(`${APIURL}/buyers`)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        buyersToDisplay: res.data.filter(e => {
+          return e.name.toLowerCase().includes(searchLetters.toLowerCase());
+        })
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
-
   byYear() {
     let year = this.searchYear.value;
-
-    // axios (GET)
+    axios.get(`${APIURL}/vehicles`)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        vehiclesToDisplay: res.data.filter(e => {
+          return Number(e.year)===Number(year);
+        })
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
     // setState with response -> vehiclesToDisplay
   }
-
   // Do not edit the code below
   resetData(dataToReset) {
     axios
