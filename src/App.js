@@ -126,7 +126,6 @@ class App extends Component {
       toast.error(err);
     })
   }
-
   addCar() {
     let newCar = {
       make: this.make.value,
@@ -147,20 +146,26 @@ class App extends Component {
     .catch (err => {
       toast.error(err);
     })
-    // setState with response -> vehiclesToDisplay
 };
-
   addBuyer() {
     let newBuyer = {
       name: this.name.value,
       phone: this.phone.value,
       address: this.address.value
     };
-
-    //axios (POST)
-    // setState with response -> buyersToDisplay
+    axios.post(`${APIURL}/buyers`, newBuyer)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        buyersToDisplay: res.data.buyers
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
-
   deleteBuyer(id) {
     // axios (DELETE)
     //setState with response -> buyersToDisplay
