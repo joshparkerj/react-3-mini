@@ -167,10 +167,19 @@ class App extends Component {
     })
   }
   deleteBuyer(id) {
-    // axios (DELETE)
-    //setState with response -> buyersToDisplay
+    axios.delete(`${APIURL}/buyers/${id}`)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        buyersToDisplay: res.data.buyers
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
-
   nameSearch() {
     let searchLetters = this.searchLetters.value;
 
