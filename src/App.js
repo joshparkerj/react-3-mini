@@ -6,7 +6,7 @@ import './App.css';
 // Toast notification dependencies
 import { ToastContainer, toast } from 'react-toastify';
 
-const APIURL = 'https://joes-autos.herokuapp.com/api/vehicles';
+const APIURL = 'https://joes-autos.herokuapp.com/api';
 
 class App extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class App extends Component {
   }
 
   getVehicles() {
-    axios.get(APIURL)
+    axios.get(`${APIURL}/vehicles`)
     .then(res => {
       toast.success("Success Notification !", {
         position: toast.POSITION.TOP_CENTER
@@ -46,12 +46,22 @@ class App extends Component {
   }
 
   getPotentialBuyers() {
-    // axios (GET)
-    // setState with response -> buyersToDisplay
+    axios.get(`${APIURL}/buyers`)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        buyersToDisplay: res.data
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
 
   sellCar(id) {
-    axios.delete(`${APIURL}/${id}`)
+    axios.delete(`${APIURL}/vehicles/${id}`)
     .then(res => {
       toast.success("Success Notification !", {
         position: toast.POSITION.TOP_CENTER
@@ -80,7 +90,7 @@ class App extends Component {
   }
 
   updatePrice(priceChange, id) {
-    axios.put(`${APIURL}/${id}/${priceChange}`)
+    axios.put(`${APIURL}/vehicles/${id}/${priceChange}`)
     .then(res => {
       toast.success("Success Notification !", {
         position: toast.POSITION.TOP_CENTER
@@ -102,7 +112,7 @@ class App extends Component {
       year: this.year.value,
       price: this.price.value
     }
-    axios.post(APIURL, newCar)
+    axios.post(`${APIURL}/vehicles`, newCar)
     .then(res => {
       toast.success("Success Notification !", {
         position: toast.POSITION.TOP_CENTER
