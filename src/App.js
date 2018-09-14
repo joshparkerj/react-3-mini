@@ -6,6 +6,8 @@ import './App.css';
 // Toast notification dependencies
 import { ToastContainer, toast } from 'react-toastify';
 
+const APIURL = 'https://joes-autos.herokuapp.com/api/vehicles';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -29,8 +31,18 @@ class App extends Component {
   }
 
   getVehicles() {
-    // axios (GET)
-    // setState with response -> vehiclesToDisplay
+    axios.get(APIURL)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        vehiclesToDisplay: res.data
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
 
   getPotentialBuyers() {
@@ -58,8 +70,18 @@ class App extends Component {
   }
 
   updatePrice(priceChange, id) {
-    // axios (PUT)
-    // setState with response -> vehiclesToDisplay
+    axios.put(`${APIURL}/${id}/${priceChange}`)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        vehiclesToDisplay: res.data.vehicles
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
 
   addCar() {
@@ -69,11 +91,21 @@ class App extends Component {
       color: this.color.value,
       year: this.year.value,
       price: this.price.value
-    };
-
-    // axios (POST)
+    }
+    axios.post(APIURL, newCar)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        vehiclesToDisplay: res.data.vehicles
+      })
+    })
+    .catch (err => {
+      toast.error(err);
+    })
     // setState with response -> vehiclesToDisplay
-  }
+};
 
   addBuyer() {
     let newBuyer = {
