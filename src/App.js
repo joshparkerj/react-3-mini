@@ -77,30 +77,39 @@ class App extends Component {
 
   filterByMake() {
     let make = this.selectedMake.value;
-
     axios.get(`${APIURL}/vehicles`)
     .then(res => {
-      console.log(res);
       toast.success("Success Notification !", {
         position: toast.POSITION.TOP_CENTER
       });
       this.setState({
         vehiclesToDisplay: res.data.filter(e => {
-          return e.make === make;
+          return e.make.toLowerCase() === make.toLowerCase();
         })
       })
     })
     .catch(err => {
       toast.error(err);
     })
-    // setState with response -> vehiclesToDisplay
   }
 
   filterByColor() {
     let color = this.selectedColor.value;
 
-    // axios (GET)
-    // setState with response -> vehiclesToDisplay
+    axios.get(`${APIURL}/vehicles`)
+    .then(res => {
+      toast.success("Success Notification !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      this.setState({
+        vehiclesToDisplay: res.data.filter(e => {
+          return e.color.toLowerCase() === color.toLowerCase();
+        })
+      })
+    })
+    .catch(err => {
+      toast.error(err);
+    })
   }
 
   updatePrice(priceChange, id) {
